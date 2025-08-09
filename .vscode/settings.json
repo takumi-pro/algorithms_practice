@@ -1,8 +1,15 @@
 {
   "files.associations": {
+    "*.dbclient-js": "javascript",
     "*.sqlbook": "sql",
     "*.ndjson": "jsonl",
-    "*.dbclient-js": "javascript",
-    "vector": "cpp"
+    "vector": "cpp",
+    "ostream": "cpp",
+    "array": "cpp",
+    "deque": "cpp",
+    "map": "cpp",
+    "string": "cpp",
+    "string_view": "cpp",
+    "unordered_map": "cpp"
   }
 }

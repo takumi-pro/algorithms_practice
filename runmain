@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Script to compile and run main.cpp
+
+MAIN_CPP="/Users/takumi/Documents/algorithms-practice/main.cpp"
+OUTPUT_FILE="/Users/takumi/Documents/algorithms-practice/main.out"
+
+# Check if main.cpp exists
+if [ ! -f "$MAIN_CPP" ]; then
+    echo "Error: main.cpp not found at $MAIN_CPP"
+    exit 1
+fi
+
+# Compile main.cpp
+echo "Compiling main.cpp..."
+g++ -std=c++17 -O2 -Wall -o "$OUTPUT_FILE" "$MAIN_CPP"
+
+# Check if compilation was successful
+if [ $? -eq 0 ]; then
+    echo "Compilation successful!"
+    echo "Running main.out..."
+    echo "----------------------------------------"
+    "$OUTPUT_FILE"
+else
+    echo "Compilation failed!"
+    exit 1
+fi

@@ -1,0 +1,56 @@
+#!/bin/bash
+
+# Script to compile and run C++ files in the atcoder directory
+
+ATCODER_DIR="$(dirname "$0")"
+
+# Check if correct number of arguments
+if [ $# -ne 3 ]; then
+    echo "Usage: $0 abc <contest_number> <problem>"
+    echo "Example: $0 abc 300 a"
+    exit 1
+fi
+
+# Parse arguments
+contest_type=$1
+contest_num=$2
+problem=$3
+
+# Construct the directory and file paths
+if [ "$contest_type" = "abc" ]; then
+    dir_name="abc_${contest_num}"
+else
+    echo "Currently only 'abc' contests are supported"
+    exit 1
+fi
+
+full_dir_path="$ATCODER_DIR/$dir_name"
+cpp_file="$full_dir_path/${problem}.cpp"
+output_file="$full_dir_path/${problem}.out"
+
+# Check if directory exists
+if [ ! -d "$full_dir_path" ]; then
+    echo "Error: Directory $full_dir_path does not exist"
+    exit 1
+fi
+
+# Check if cpp file exists
+if [ ! -f "$cpp_file" ]; then
+    echo "Error: File $cpp_file does not exist"
+    exit 1
+fi
+
+# Compile the C++ file
+echo "Compiling $cpp_file..."
+g++ -std=c++17 -O2 -Wall -o "$output_file" "$cpp_file"
+
+# Check if compilation was successful
+if [ $? -eq 0 ]; then
+    echo "Compilation successful!"
+    echo "Running $output_file..."
+    echo "----------------------------------------"
+    "$output_file"
+else
+    echo "Compilation failed!"
+    exit 1
+fi
