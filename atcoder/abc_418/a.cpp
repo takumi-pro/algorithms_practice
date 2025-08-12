@@ -26,5 +26,10 @@ template<class T,class S> struct std::hash<std::pair<T,S>>{
 };
 
 int main() {
+  int N;cin >> N;
+  string S;cin >> S;
+  reverse(S.begin(), S.end());
+  if (S[0] == 'a' && S[1] == 'e' && S[2] =='t') cout << "Yes" << endl;
+  else cout << "No" << endl; 
 }
 
