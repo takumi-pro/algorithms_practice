@@ -12,61 +12,39 @@ using namespace std;
 using ll = long long;
 using vi = vector<int>;
 using vs = vector<string>;
-using vvi = vector<vector<int>>;
+using vvi = vector<vector<int> >;
+using vvb = vector<vector<bool> >;
 
 int main() {
-  // 体力Hが移動数N以上だった場合はアイデムを使わずに移動できるためYesを出力する
-  // 体力HがK未満になるタイミングと体力Hが0になるタイミングが鍵
-  // 体力HがK未満の状態で、その場所にアイテムがある場合はHを回復して再度移動
-  // 体力Hが0になるタイミングで、移動先にアイテムがなければNoを出力
+  int N,M,H,K;cin >> N >> M >> H >> K;
+  string S;cin >> S;
+  vector<ll> x(M),y(M);
+  for (int i=0; i<M; i++) cin >> x[i] >> y[i];
 
-  // HがN以上→Yes出力
-  // HがK未満になるまで移動 → RLUDについてはまとめて+-できる
-  // K未満の場合
-  // -- その場所にアイテムがある→回復
-  // -- その場所にアイテムがない
-  // ----継続
-  // 0になった場合
-  // -- 次の場所にアイテムがない→No出力
+  // アイテムの位置をsetを用いて管理する
+  set<pair<int, int> > item_set;
+  for (int i=0; i<M; i++) item_set.insert({x[i], y[i]});
 
-  int N,M,H,K; cin >> N >> M >> H >> K;
-  string S; cin >> S;
-  vvi xy;
-  rep(i, M) cin >> xy[i][0] >> xy[i][1];
-
-  if (H > N) {
-    cout << "Yes" << endl;
-    return 0;
-  }
-
-  // Hが正の整数 or Nが正の整数の間ループ
-  int s_i = 0;
-  while (H > 0 || N > 0) {
-    // Hが50, Kが20の場合はHが19だから
-    int d = H - (H-K) - 1; // K未満の値
-    int x, y;
-    for (int i = s_i; i < d; i++) {
-      if (S[i] == 'R') x++;
-      if (S[i] == 'L') x--;
-      if (S[i] == 'U') y++;
-      if (S[i] == 'D') y--;
+  int res = true;
+  int n = S.size();
+  pair<int, int> curr = {0, 0};
+  for (int i=0; i<n; i++) {
+    if (S[i] == 'R') curr.first++;
+    if (S[i] == 'L') curr.first--;
+    if (S[i] == 'U') curr.second++;
+    if (S[i] == 'D') curr.second--;
+    H--;
+    if (H < 0) {
+      res = false;
+      break;
     }
-    H = H - d;
-    N = N - d;
-    // x, yの場所は体力がK未満になった場所なのでここでアイテムがあるかを確認する
-    bool item_f = false;
-    rep(m, M) {
-      if (xy[m][0] == x && xy[m][1] == y) item_f = true;
-    }
-    if (item_f) {
+    if (H < K && item_set.find(curr) != item_set.end()) {
       H = K;
+      item_set.erase(curr);
     }
-
-    if (H == 0) {
-
-    }
-
-    // KがH以上の場合を考慮する todo
   }
+
+  if (res) cout << "Yes" << endl;
+  else cout << "No" << endl;
 }
 

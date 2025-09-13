@@ -33,5 +33,37 @@ template<class T,class S> struct std::hash<std::pair<T,S> >{
 };
 
 int main() {
+  ll N, K; cin >> N >> K;
+  vector<ll> m(1000000001, 0);
+  priority_queue<pair<ll, ll>, vector<pair<ll, ll> >, std::greater<pair<ll, ll> > > q;
+
+  ll sum = 0;
+  rep(i, N) {
+    ll a,b; cin >> a >> b;
+    q.push(make_pair(a, b));
+    sum += b;
+  }
+
+  ll ans = 1;
+  if (sum <= K) {
+    cout << "1日目!" << endl;
+    cout << "sum: " << sum << ", K: " << K << endl;
+    cout << ans << endl;
+    return 0;
+  }
+
+  for (int i=2; i<N; i++) { // 2日~N日
+    if (i > q.top().first) {
+      sum -= q.top().second;
+      q.pop();
+    }
+
+    if (sum <= K) {
+      ans = i;
+      break;
+    }
+  }
+
+  cout << ans << endl;
 }
 

@@ -4,7 +4,6 @@
 #include <unordered_map>
 #include <map>
 #include <set>
-#include <queue>
 
 #define INF 1010000000
 #define rep(i, n) for(int i=0; i<n; i++)
@@ -33,5 +32,42 @@ template<class T,class S> struct std::hash<std::pair<T,S> >{
 };
 
 int main() {
+  int N;cin >> N;
+  vs A(N);
+  vvi B(N, vi(N)), a(N, vi(N));
+  rep(i, N) cin >> A[i];
+  rep(i, N) {
+    rep(j, N) {
+      if (A[i][j] == '0') a[i][j] = 0;
+      else a[i][j] = 1;
+    }
+  }
+
+  rep(i, N) {
+    rep(j, N) {
+      if (i == 0) {
+        if (j == 0) B[i][j] = a[i+1][0];
+        else B[i][j] = a[i][j-1];
+      } else if (i == N-1) {
+        if (j == N-1) B[i][j] = a[i-1][N-1];
+        else B[i][j] = a[i][j+1];
+      } else if (j == 0) {
+        if (i == N-1) B[i][j] = a[i][j+1];
+        else B[i][j] = a[i+1][j];
+      } else if (j == N-1) {
+        if (i == 0) B[i][j] = a[i][j-1];
+        else B[i][j] = a[i-1][j];
+      } else {
+        B[i][j] = a[i][j];
+      }
+    }
+  }
+
+  rep(i, N) {
+    rep(j, N) {
+      cout << B[i][j];
+    }
+    cout << endl;
+  }
 }
 
